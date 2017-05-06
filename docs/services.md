@@ -1,0 +1,114 @@
+## Services
+
+The means by which you act on events stored in a topic is a service. A service is specification of how
+to reshape events from a topic, and an instance of that service running is named a deployment.
+
+### Templates
+
+When a service is created, it needs to be given a name so that we can refer back to it over time.
+A service also needs to be created from a *template*. Templates are light-weight suggestions on
+how to structure the sequence of steps that a service will employ to reshape your events. Templates
+simply set up a few example steps to get you going. A template doesn't lock you into a particular kind
+of service. You can change every aspect of how your service functions after its been created. We'll explore
+the different templates and their motivations later in this section.
+
+### Service Specification
+
+Designing a service involves creating a sequence of steps to be applied to events being read from a topic
+and choosing what to do with the result of those steps being applied. A service that reads from a topic
+can apply three different functions to the events it receives: transform, filter, and aggregate.
+
+#### Transform
+
+A transformation function takes an event, updates it in some way, and returns that same event. An example
+of a transformation function is the Capitalize function. This function takes a key in an event which
+has the value of a string, and returns that same event with the specified key's value changed into a
+capitalized form. This is a 1-1 mapping between input and output.
+
+#### Filter
+
+A filter function takes an event and applies a predicate function to it. If the predicate evaluates to true,
+the event proceeds to the next step in the service. If the predicate evaluates to false, it is discarded.
+This is useful for extracting a particular selection of events in a topic that a service is interested in.
+Filter functions that one event, and either return that event, or no events.
+
+Filter predicates can be negated, allowing only events that return a false predicate. Predicates can optionally
+throw an exception they fail to match on an event. This is useful when filters are being used as a sanity check, or
+a mechanism to detect malformed events. In those cases, it's useful not only to not process those events, but to also
+throw an exception, which will in turn display the contents of the event that failed. In this way, filters can
+act as a debugger.
+
+#### Aggregate
+
+An aggregate function reduces a sequence of events into a smaller value representative of the entire topic.
+Aggregates, like sum, min, max, and so forth, are rolling computations whose value updates as more events
+are processed from a topic. Aggregates automatically roll up sequence of events for you from a topic, and do
+not operate on a single key within each event. Aggregates are specified by windowing type. A global window
+aggregates all events in a topic, irrespective of their timestamps. Other window types (fixed, sliding, and session)
+taken into account a timestamp associated with each event to shard aggregations over particular intervals of time.
+
+### Constraints
+
+The sequence of steps in a service specification is constrained in a few ways to maximize productivity.
+
+#### Linear Sequences Only
+
+The sequence of steps in a service is linear. That is, the steps may not "branch" and "reconverge".
+If branching is needed, it's encouraged to write another service over the same topic.
+
+#### One Input Topic
+
+Each service can only read events from one input topic. Each event ought to only exist in one ingested
+topic, so this constraint discourages the multi-topic anti-pattern discussed in the topics section.
+
+#### Final Step
+
+The final step of a service must either be an aggregate or an output to another topic. The resulting
+events need to be stored somewhere, meaning that it doesn't make sense for the last step in an service
+to be either a transformation function or a filter.
+
+#### One Aggregate
+
+A service may only have one aggregate in its sequence of steps. This is a limitation that will be removed
+in the future, but is important to note for now.
+
+### Deployments
+
+If service is a specification for the sequence of steps to transform data, we need some way to instantiate
+that service into a running entity. We call the realization of a service a *deployment*. Each service
+may be deployed zero or more times. When a service is created, Pyroclast automatically creates three deployments
+for you: development, test, and production. Deployments can be given any name you wish, and you can create
+or delete deployments for a service. All newly created deployments start with the status *disabled*. You can *activate*
+the deployment when you're ready to begin processing data with it, and *stop* it at any stop.
+
+### Service Types
+
+When a service is created, a template for that service is chosen. There are four different kinds of services:
+data pipeline, materialized view, metrics, and manifest file. We'll look at each.
+
+#### Data pipeline
+
+A data pipeline is a loose term for a service that reads events from a topic and writes its output events to another
+topic. When the template for this is chosen, the editor automatically sets up the sequence of steps to terminate
+in an output step.
+
+#### Materialized View
+
+A materialized view is a data structure that represents an aggregate of your data. This is the value that is accessed
+via an HTTP endpoint when a deployment has begun running, allowing you to extract information from your event stream
+out of Pyroclast. When this template is chosen, the editor automatically adds a final step to terminate in an aggregate,
+
+#### Metrics
+
+A metrics service operates on *metadata* of events from a designated input topic. When this template is chosen, the input
+task step has the "Meta topic?" checkbox automatically selected. When this service is deployed, instead of receiving a
+sequence of events, the service instead receives a *meta-event*. The event is a map with keys that represent the number
+of bytes in the ingested record, a timestamp when Pyroclast received the record, and the record itself. This is useful
+for writing auditing services that produce time-delineated aggregates of how much data was received when for particular attributes.
+
+#### Manifest File
+
+The manifest option isn't a particular "kind" of service per say. When a service is created, a manifest of its specification can
+be downloaded as a text file. Choosing the manifest file option will open a file picker, and the downloaded file from another service
+can be chosen and uploaded. When chosen, an exact copy of that service will be installed into your account (excluding any deployments).
+This is useful for sharing services.

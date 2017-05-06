@@ -1,0 +1,32 @@
+## Ingest
+
+Building an application on top of Pyroclast means that you'll need to get your event data into our storage. Pyroclast
+makes this easy with two techniques - HTTPS and Plumes. We'll look at both of these.
+In all both forms, data is "pushed" to Pyroclast. Event data is only sent to Pyroclast when you start services to send it.
+This is different from "pull" based services that periodically analyze your data and replicate it into our storage. Pyroclast is a platform for building realtime applications, so we focus on processing your data quickly as you send it.
+
+### HTTPS
+
+The most direct way to send an event into Pyroclast is by using HTTPS. All methods of moving data into Pyroclast use HTTPS under the hood, so this is the most basic way to go about it. It's preferable to use HTTP when we don't offer a language binding for your programming language.
+
+To send data over HTTPS, form your request to the following specification:
+- method: POST
+- authentication: Basic Auth (username and password)
+- body: JSON event data, must be a map
+- headers: `Content-Type: application/json`
+- endpoint: `https://us-east-1.pyroclast.io/plume/_bulk?topic-id=<topic-id>`
+
+For the parameters to be filled in, view the page for your topic to find:
+- "Ingress Identifier": which is your topic ID to use in the endpoint
+- "Topic Owner": which is the username for Basic Auth
+- "Topic API Key": which is the password for Basic Auth
+
+The body must be a JSON map, which can be nested arbitrarily deep.
+
+### Plumes
+
+Plumes are a set of tools offered by Pyroclast to easily push us your event data. Plumes are useful for streaming lines out of a file system, rows out of a database, and metrics obtained by monitoring a service or operating system. Plumes are daemons that roll data up into events and send them out to Pyroclast on your behalf. Plumes intelligently checkpoint progress and retry in the event of failure, making them ideal for moving data in a non-invasive manner. There are two steps to using a Plume:
+
+First, regardless of which Plume you're using, download a Plume configuration from the topic page of which you wish to send data to. A single Yaml file will be downloaded, pre-filled with all the information needed for any Plume to send data securely to your topic.
+
+Second, go to our open source [Plumes](https://github.com/onyx-platform/pyroclast-plumes) repository and clone it locally. Build the Plume of your choice using the instructions in the README. Configure the Plume to your liking - for example, you might configure the File Plume to send events from a particular directory in your file system. Finally, run the Plume using the example command in the README, passing in the configuration file that you downloaded. Your events will automatically upload to Pyroclast.
