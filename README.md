@@ -9,3 +9,4 @@ Documentation and public issue tracker for Pyroclast. Make an issue to start a d
 - [Topics](docs/topics.md)
 - [Services](docs/services.md)
 - [Deployments](docs/deployments.md)
+- [HTTP API](docs/http_api.md)
