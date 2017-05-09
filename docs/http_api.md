@@ -30,12 +30,13 @@ Returns information about all materialized views for this service.
 
 #### parameters
 
-|| **name**   || **in** || **required** || **type** || **description**                       ||
-|| service-id || path   || true         || string   || Identifier for this deployed service. ||
-|| start      || query  || false        || integer  || Exclude all aggregates whose timestamp ending boundary falls before the specified time. This value is in milliseconds since the Unix epoch. ||
-|| end        || query  || false        || integer  || Exclude all aggregates whose timestamp starting boundary falls after the specified time. This value is in milliseconds since the Unix epoch. ||
-|| sort       || query  || false        || boolean  || When true, sorts aggregate results in ascending order according to the timestamp starting bound. ||
-|| datetime-format || query || false || string || The format for datetime instances. (Options: `"iso-8601"`) ||
+| **name**   | **in** | **required** | **type** | **description** |
+|------------|--------|--------------|----------|-----------------|
+| service-id | path   | true         | string   | Identifier for this deployed service. |
+| start      | query  | false        | integer  | Exclude all aggregates whose timestamp ending boundary falls before the specified time. This value is in milliseconds since the Unix epoch. |
+| end        | query  | false        | integer  | Exclude all aggregates whose timestamp starting boundary falls after the specified time. This value is in milliseconds since the Unix epoch. |
+| sort       | query  | false        | boolean  | When true, sorts aggregate results in ascending order according to the timestamp starting bound. |
+| datetime-format | query | false | string | The format for datetime instances. (Options: `"iso-8601"`) |
 
 #### response
 
@@ -84,12 +85,13 @@ Gets a specific aggregate by name from this service.
 
 #### parameters
 
-|| **name**   || **in** || **required** || **type** || **description**                       ||
-|| service-id || path   || true         || string   || Identifier for this deployed service. ||
-|| start      || query  || false        || integer  || Exclude all aggregates whose timestamp ending boundary falls before the specified time. This value is in milliseconds since the Unix epoch. ||
-|| end        || query  || false        || integer  || Exclude all aggregates whose timestamp starting boundary falls after the specified time. This value is in milliseconds since the Unix epoch. ||
-|| sort       || query  || false        || boolean  || When true, sorts aggregate results in ascending order according to the timestamp starting bound. ||
-|| datetime-format || query || false || string || The format for datetime instances. (Options: `"iso-8601"`) ||
+| **name**   | **in** | **required** | **type** | **description** |
+|------------|--------|--------------|----------|-----------------|
+| service-id | path   | true         | string   | Identifier for this deployed service. |
+| start      | query  | false        | integer  | Exclude all aggregates whose timestamp ending boundary falls before the specified time. This value is in milliseconds since the Unix epoch. |
+| end        | query  | false        | integer  | Exclude all aggregates whose timestamp starting boundary falls after the specified time. This value is in milliseconds since the Unix epoch. |
+| sort       | query  | false        | boolean  | When true, sorts aggregate results in ascending order according to the timestamp starting bound. |
+| datetime-format | query | false | string | The format for datetime instances. (Options: `"iso-8601"`) |
 
 #### response
 
@@ -135,13 +137,13 @@ Gets a specific aggregate by name from this service.
     $ curl -u "[user id]:[api key]" "https://us-east-1.pyroclast.io/svc/kzPgyNWQYJRVdr/trending-hashtags/yolo"
 
 #### parameters
-
-|| **name**   || **in** || **required** || **type** || **description**                       ||
-|| service-id || path   || true         || string   || Identifier for this deployed service. ||
-|| start      || query  || false        || integer  || Exclude all aggregates whose timestamp ending boundary falls before the specified time. This value is in milliseconds since the Unix epoch.  |
-|| end        || query  || false        || integer  || Exclude all aggregates whose timestamp starting boundary falls after the specified time. This value is in milliseconds since the Unix epoch. ||
-|| sort       || query  || false        || boolean  || When true, sorts aggregate results in ascending order according to the timestamp starting bound. ||
-|| datetime-format || query || false || string || The format for datetime instances. (Options: `"iso-8601"`) ||
+| **name**   | **in** | **required** | **type** | **description** |
+|------------|--------|--------------|----------|-----------------|
+| service-id | path   | true         | string   | Identifier for this deployed service. |
+| start      | query  | false        | integer  | Exclude all aggregates whose timestamp ending boundary falls before the specified time. This value is in milliseconds since the Unix epoch. |
+| end        | query  | false        | integer  | Exclude all aggregates whose timestamp starting boundary falls after the specified time. This value is in milliseconds since the Unix epoch. |
+| sort       | query  | false        | boolean  | When true, sorts aggregate results in ascending order according to the timestamp starting bound. |
+| datetime-format | query | false | string | The format for datetime instances. (Options: `"iso-8601"`) |
 
 #### response
 
