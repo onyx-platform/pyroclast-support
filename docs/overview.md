@@ -4,9 +4,9 @@ Pyroclast is a cloud-hosted platform for building realtime data applications. We
 
 - **You**: send events to Pyroclast via HTTP or our data extraction tools
 - **We**: receive your events and place them into our hosted storage
-- **You**: define data pipeline specifications to transform, filter, and aggregate your events
-- **We**: run your data pipelines in a high speed, scalable, fault tolerant environment
-- **We**: maintain and serve aggregations from your pipelines through HTTP endpoints
+- **You**: define service specifications to transform, filter, and aggregate your events
+- **We**: run your services in a high speed, scalable, fault tolerant environment
+- **We**: maintain and serve materialized views of your events through service HTTP endpoints
 - **You**: build applications against those HTTP endpoints
 
 Pyroclast gives you three dimensions for working with your event data: store, compute, and query. Leveraging each of these allows your architecture to treat Pyroclast as a service.
@@ -19,16 +19,16 @@ When you create a topic, you specify how long Pyroclast should retain your event
 
 ### Compute
 
-Once you've decided on what sort of data will go inside your topics, you build data pipeline specifications to change your event data in some way. Data pipelines consist of a series of transformations, filters, and aggregates to reshape your data into a form that you find most beneficial for analysis. A topic can have any number of data pipelines reading and processing from it without conflict. Two or more data pipelines that read from the same topic will receive the same series of events. This lets you build different applications over the same data stream without needing to copy events or negotiation data formats.
+Once you've decided on what sort of data will go inside your topics, you build web service specifications to change your event data in some way. Services consist of a series of transformations, filters, and aggregates to reshape your data into a form that you find most beneficial for analysis. A topic can have any number of services reading and processing from it without conflict. Two or more services that read from the same topic will receive the same series of events. This lets you build different applications over the same data stream without needing to copy events or negotiation data formats.
 
-Data pipelines are constructed in the browser using a feature-rich editor. Pyroclast offers a very large set of transformations, filters, and aggregates out of the box to perform common data manipulation. You can also write JavaScript to be directly executed when we don't have a function that you're looking for.
+Services are constructed in the browser using a feature-rich editor. Pyroclast offers a very large set of transformations, filters, and aggregates out of the box to perform common data manipulation. You can also write JavaScript to be directly executed when we don't have a function that you're looking for.
 
-Data pipelines are interactively developed in the browser alongside a feature named the Simulator. The simulator accepts sample data that represents events on your topic and displays how your data will change as it flows through your pipeline. The simulator is extraordinarily responsive. Each key stroke and mouse click will instantaneously update the view of how your data changes. The simulator let's you experiment, iterate, detect, and correct mistakes as soon as they're made for maximum productivity.
+Services are interactively developed in the browser alongside a feature named the Simulator. The simulator accepts sample data that represents events on your topic and displays how your data will change as it flows through your service. The simulator is extraordinarily responsive. Each key stroke and mouse click will instantaneously update the view of how your data changes. The simulator let's you experiment, iterate, detect, and correct mistakes as soon as they're made for maximum productivity.
 
-When you're happy with your data pipeline, you launch it onto our infrastructure with the click on a button. Pyroclast start pulling data from your topics and processing it in the fashion that you've chosen. Pyroclast's computation layer is extremely fast and can handle very high volumes of data. It's able to recover in a safe manner in the event of an internal or external failure.
+When you're happy with your service, you launch it onto our infrastructure with the click on a button. Pyroclast start pulling data from your topics and processing it in the fashion that you've chosen. Pyroclast's computation layer is extremely fast and can handle very high volumes of data. It's able to recover in a safe manner in the event of an internal or external failure.
 
 ### Query
 
-When your data pipeline is up and running, you're able to ask questions about your event data as it flows through Pyroclast. For each aggregate that you create in your data pipeline, Pyroclast exposes an HTTP endpoint. This endpoint returns a materialized view of your event data that's being updated in real time. You use these endpoints to serve realtime data as if it were coming out of your own application. Pyroclast can be treated as a plain service, just like any other service you would design for your architecture.
+When your service is up and running, you're able to ask questions about your event data as it flows through Pyroclast. For each aggregate that you create in your service, Pyroclast exposes an HTTP endpoint. This endpoint returns a materialized view of your event data that's being updated in real time. You use these endpoints to serve realtime data as if it were coming out of your own application. Pyroclast can be treated as a plain service, just like any other service you would design for your architecture.
 
 Pyroclast exposes a highly flexible windowing abstraction to slice your data into a time series. If your event data is timestamped, you can segment it by the moment at which it occurred - not by the moment at which it was received by Pyroclast. This is a powerful building block because you can backfill historical data into Pyroclast and analyze it separately. Using this technique means that you don't need to worry about polluting current data with older data.
