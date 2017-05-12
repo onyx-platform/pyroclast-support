@@ -1,0 +1,22 @@
+=== Topics
+
+When your system sends events to Pyroclast, those events are sent to a particular topic. A topic is a named log of events, typically representative of a feed or a category of information. An example of a topic might be "user events", actions that a user takes when they interact with your system. A topic would then consist of records, detailing actions such as a user visiting a page, or deleting an item from their shopping cart.
+
+==== Topic Structure
+
+Topics are immutable and partitioned. A topic's recoreds are immutable in that one a record has been written to the log for that topic, it cannot be modified or deleted. Each partition is partitioned several ways, meaning that its contents are partially ordered within each partition, but consumable in parallel across partitions.
+
+==== Replication
+
+Each topic's contents are replicated 3-ways when a record is ingested into Pyroclast. This means that if Pyroclast has a partial catastrophic failure, your data is recoverable without any intervention on your part.
+
+==== Retention
+
+Events are retained in a topic for as long as you configure them to be. When a topic is created, retention policies are chosen. You can choose to retain events for a certain number of days and gigabytes. When a record exceeds that number of days, *or* the maximum amount of gigabytes have been exceeded, that record is removed from the topic. Records "slide off the front" - the oldest records are removed first, continually making room for new records.
+
+This process is periodic, and you may temorarily have been data than you configured to retain.
+
+==== Security
+
+Topic data at rested is stored in a location that is not public facing to the internet, and has strict ingress routes only accessible by services which read from its contents. Writing to a topic requires an API key on each request that is specific to each user. This API key can be rotated at any time.
+

@@ -1,0 +1,36 @@
+=== Assigning default values
+
+**Problem:** a key in your record might not have a value, and you want to default it if it doesn't.
+
+**Example:** Suppose you have the following records:
+
+```json
+{
+  "user": "john",
+  "premium?": true
+}
+
+{
+  "user": "sally":
+}
+```
+
+Only the first record has a flag for `"premium?"`. Suppose we want all records to conform
+to the same schema, and for some records, we're going to need to provide a default value
+if there isn't one present already.
+
+**Solution:** use the `assoc-default` transformation.
+
+`assoc-default` takes a key and a value. If the value for that key is null (e.g. it's not present),
+the provided value will be associated with the key.  If a value already exists, it is not modified.
+
+++++
+<details>
+  <summary><strong>Image</strong></summary>
+  <br/>
+++++
+image::parsing-value-types/img-1.png[]
+++++
+</details>
+++++
+

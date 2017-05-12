@@ -1,0 +1,12 @@
+=== High Level Summary
+
+Pyroclast is a fully hosted cloud platform for building realtime data processing applications. In order to understand how Pyroclast works, we'll discuss it from the two main user facing abstractions: topics and services - both how they work independently, and what their relationship is to each other.
+
+++++
+<div style="text-align: center">
+++++
+image::architecture.svg[height=70%, width=70%]
+++++
+</div>
+++++
+

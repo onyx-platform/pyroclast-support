@@ -1,0 +1,36 @@
+=== Parsing regular expressions into named values
+
+**Problem:** you want to apply a regular expression to a string and name each of the group matches.
+
+**Example:** Suppose you have the following record:
+
+```json
+{
+  "date": "Jan-13-1991"
+}
+```
+
+If we apply a regular expression to capture the month, day, and year in the `"date"`
+key, we want to be able to name each of these values for independent use.
+
+**Solution:** use the `extract-regex-match` and `zipmap` transformations.
+
+A clean solution is to use two functions together. First, `extract-regex-match` does
+the obvious heavy lifting in applying a regular expression to a string. This function
+returns an array of matches, with the first element being the target string itself as
+is standard.
+
+Next, apply the `zipmap` function, which takes an array of values, and a sequence of keys
+to "zip" against it. In this example, we zip the array of parsed values with a key sequence
+denoting the name of each value to achieve a map of named matches.
+
+++++
+<details>
+  <summary><strong>Image</strong></summary>
+  <br/>
+++++
+image::parsing-value-types/img-1.png[]
+++++
+</details>
+++++
+

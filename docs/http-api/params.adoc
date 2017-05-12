@@ -1,0 +1,34 @@
+|===
+| name | in | required | type | description
+
+| service-id
+| path
+| true
+| string
+| Identifier for this deployed service.
+
+| start
+| query
+| false
+| integer
+| Exclude all aggregates whose timestamp ending boundary falls before the specified time. This value is in milliseconds since the Unix epoch.
+
+| end
+| query
+| false
+| integer
+| Exclude all aggregates whose timestamp starting boundary falls after the specified time. This value is in milliseconds since the Unix epoch.
+
+| sort
+| query
+| false
+| boolean
+| When true, sorts aggregate results in ascending order according to the timestamp starting bound.
+
+| datetime-format
+| query
+| false
+| string
+| The format for datetime instances. (Options: `"iso-8601"`)
+
+|===

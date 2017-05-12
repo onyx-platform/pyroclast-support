@@ -4,9 +4,9 @@ Documentation and public issue tracker for Pyroclast. Make an issue to start a d
 
 ## Learn
 
-- [Overview](docs/overview.md)
-- [Ingesting Events](docs/ingest.md)
-- [Topics](docs/topics.md)
-- [Services](docs/services.md)
-- [Deployments](docs/deployments.md)
-- [HTTP API](docs/http_api.md)
+- [Overview](docs/overview/index.adoc)
+- [Ingesting Events](docs/ingest/index.adoc)
+- [Topics](docs/concepts/topics.adoc)
+- [Services](docs/concepts/services.adoc)
+- [Deployments](docs/concepts/deployments.adoc)
+- [HTTP API](docs/http-api/index.adoc)

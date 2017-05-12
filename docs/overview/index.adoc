@@ -1,4 +1,4 @@
-## Overview
+== Overview
 
 Pyroclast is a cloud-hosted platform for building realtime data applications. We make Streaming as a Service easy:
 
@@ -11,13 +11,13 @@ Pyroclast is a cloud-hosted platform for building realtime data applications. We
 
 Pyroclast gives you three dimensions for working with your event data: store, compute, and query. Leveraging each of these allows your architecture to treat Pyroclast as a service.
 
-### Store
+=== Store
 
 When event data is published to Pyroclast, you specify a "topic" that it routes to. A topic is a named stream of events, often representation of a feed or a category. Event data is "pushed" into Pyroclast via HTTP or tools that send data directly to our storage. This is different from Pyroclast periodically "pulling" your data. We only receive data that you directly send to us.
 
 When you create a topic, you specify how long Pyroclast should retain your events for. You choose both a duration in number of days and a limit number of gigabytes. After your events either become older than the number of specified days, or you send Pyroclast more bytes than the limit chosen, they will be discarded. We currently allow you to set very high retention limits for both duration and number of gigabytes, and will also soon be offering an archival policy to store your data in a predetermined location after it is discarded from Pyroclast.
 
-### Compute
+=== Compute
 
 Once you've decided on what sort of data will go inside your topics, you build web service specifications to change your event data in some way. Services consist of a series of transformations, filters, and aggregates to reshape your data into a form that you find most beneficial for analysis. A topic can have any number of services reading and processing from it without conflict. Two or more services that read from the same topic will receive the same series of events. This lets you build different applications over the same data stream without needing to copy events or negotiation data formats.
 
@@ -27,7 +27,7 @@ Services are interactively developed in the browser alongside a feature named th
 
 When you're happy with your service, you launch it onto our infrastructure with the click on a button. Pyroclast start pulling data from your topics and processing it in the fashion that you've chosen. Pyroclast's computation layer is extremely fast and can handle very high volumes of data. It's able to recover in a safe manner in the event of an internal or external failure.
 
-### Query
+=== Query
 
 When your service is up and running, you're able to ask questions about your event data as it flows through Pyroclast. For each aggregate that you create in your service, Pyroclast exposes an HTTP endpoint. This endpoint returns a materialized view of your event data that's being updated in real time. You use these endpoints to serve realtime data as if it were coming out of your own application. Pyroclast can be treated as a plain service, just like any other service you would design for your architecture.
 

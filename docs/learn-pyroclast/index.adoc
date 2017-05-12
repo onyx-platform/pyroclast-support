@@ -1,0 +1,12 @@
+== Usage Patterns
+:imagesdir: learn-pyroclast/img
+
+include::parsing-value-types.adoc[]
+include::selecting-relevant-events.adoc[]
+include::diagnosing-unconforming-data.adoc[]
+include::change-event-structure.adoc[]
+include::splitting-a-record.adoc[]
+include::parsing-a-regex.adoc[]
+include::assign-default-values.adoc[]
+include::coercing-datetimes.adoc[]
+include::accessing-nested-values.adoc[]

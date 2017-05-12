@@ -1,4 +1,4 @@
-## Topics
+=== Topics
 
 A topic is a named stream of events, typically representative of a feed or a category of information.
 Each topic is a unit of storage where Pyroclast initially receives your data. When your data enters
@@ -6,7 +6,7 @@ a topic, it is durably stored and replicated for a specified amount of time. Top
 to have several characteristics that make the highly suitable to event stream processing. We'll go through
 each of these in turn.
 
-### Immutability
+==== Immutability
 
 Once an event be written to a topic, it cannot be deleted unless the entire topic is deleted. This is called
 immutability. The topic can only be modified by appending more events to its tail. An event represents a fact
@@ -14,7 +14,7 @@ of information about something that occurred. Facts are true as of a particular 
 or erased from history. This mode of thinking enables rich analysis of historical information, and maximizes
 knowledge about the present by retaining as much data about the past as possible.
 
-### Retention
+==== Retention
 
 Events are stored in a topic for a specified duration - both in terms of number of gigabytes and number of days.
 While the events in a topic are immutable, they will be deleted when they go beyond their retention policy. This
@@ -28,12 +28,12 @@ Once a topic has been created and its retention policy specified, it cannot be m
 Retention policies are not hard guarantees. Events may be available for processing even if they are beyond their
 retention limits. This behavior should not be relied upon.
 
-### Ingesting
+==== Ingesting
 
 Events are sent to a particular topic via push-based tooling. Pyroclast currently offers an HTTP based method of
 writing data to a topic, or using Plumes. See the guide on Ingesting events for more information.
 
-### Sharability
+==== Sharability
 
 Topics are different from traditional databases in that sharing their contents to different consumers is completely safe.
 
@@ -43,7 +43,7 @@ Instead, write each event to exactly one topic and design several services that 
 Since topics are immutable, there is no penalty to sharing topics across as many services as you'd like. Fewer topics
 also means fewer sources of data to manage.
 
-### Replay
+==== Replay
 
 The central idea behind Pyroclast is that you author services which read events from a topic and materialize a view
 of those events, which is consumed from an HTTP API. Since topics are fully immutable, and thus can be shared, topics
@@ -55,7 +55,7 @@ service previously left off, or you can *replay* the topic from the beginning (o
 This ability is incredibly useful for repairing services that had a bug, or a change in requirements. A brand new view
 of events can be materialized without disrupting the contents of the topic.
 
-### Schema
+==== Schema
 
 Events that are written to a topic ought to follow a particular schema. Currently, Pyroclast only supports events ingested
 in the form of JSON maps. We will extend this in the future to cover more formats.
@@ -64,7 +64,7 @@ Pyroclast currently does not support a mechanism to enforce a user defined schem
 to a topic. This will be added in the near future, but for the moment it is up to the producers of events to ensure that
 the contents of their payloads conforms to their needs.
 
-### Chaining
+==== Chaining
 
 Just as you can write information to a topic using HTTP or Plumes, services which read information from a topic can transform
 events and write them back to a topic. Such types of services are loosely named "data pipelines". They're given their name
@@ -74,3 +74,4 @@ contain events that have been transformed from the initial topic. This encourage
 gain reusability.
 
 It is possible to create a service that reads from a topic and writes back to the same topic, creating a cycle.
+

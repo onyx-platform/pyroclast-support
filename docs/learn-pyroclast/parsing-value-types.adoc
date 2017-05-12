@@ -1,0 +1,94 @@
+=== Parsing value types
+
+**Problem:** you have records whose values are of a different type than you want.
+
+**Example:** Suppose you have the following record:
+
+```json
+{
+  "first-name": "steven",
+  "age": "45"
+}
+```
+
+Perhaps you'd like to make an aggegate over all your events to find the average age.
+Notably, age isn't an integer in this record - it's a string. We need to turn it
+into a number before we can apply an average.
+
+**Solution:** use the `parse-vals` transformation.
+
+`parse-vals` takes a map of key names to string type values. The keys are
+the keys in the record to parse, and the values are the target types to to.
+
+In this case, we specify a parse map to turn the "age" key into an "integer".
+Notably, you only need to specify the desired type, and not the type to convert
+from.
+
+++++
+<details>
+  <summary><strong>Image</strong></summary>
+  <br/>
+++++
+image::parsing-value-types/img-1.png[]
+++++
+</details>
+++++
+
+==== Parsing multiple values
+
+`parse-vals` is capable of parsing many keys in a single invocation. Simply
+add more key/value pairs to the parse map. In the next example, we parse
+both an age to an integer, and a boolean flag denoting whether or not this
+user is from a legancy system.
+
+++++
+<details>
+  <summary><strong>Image</strong></summary>
+  <br/>
+++++
+image::parsing-value-types/img-2.png[]
+++++
+</details>
+++++
+
+==== Unparseable values
+
+When a value can't be parsed to its target type, an exception is thrown.
+The record will not proceed to the next task, and the exception will be
+listed in the deployment screen. The string `"banana"` can't be parsed
+to an integer, so an exception is thrown.
+
+++++
+<details>
+  <summary><strong>Image</strong></summary>
+  <br/>
+++++
+image::parsing-value-types/img-3.png[]
+++++
+</details>
+++++
+
+==== Handling null values
+
+Null values will throw an exception when they're attempted to be parsed.
+If you're excepting some of your values to be null and that's okay for your
+application, tick the "Allow Nulls?" box underneath the Parse Map text box.
+This has the effect of not attempting to parse the value, passing it through
+unmodified.
+
+++++
+<details>
+  <summary><strong>Image</strong></summary>
+  <br/>
+++++
+image::parsing-value-types/img-4.png[]
+++++
+</details>
+++++
+
+==== Limitations
+
+At this time, parse-vals only worked on top-level keys. If you need to parse a nested
+value, move it to the top of the map using the `move` function. This will be addressed
+in the future.
+

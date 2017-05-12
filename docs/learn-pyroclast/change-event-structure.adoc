@@ -1,0 +1,89 @@
+=== Changing Event Structure
+
+**Problem:** your records are in a structure that is different from what you want.
+
+**Example:** Suppose you have the following record:
+
+```json
+{
+  "favorites": {
+    "color": "red"
+  }
+}
+```
+
+Let's say you'd like to restructure the event so that `"favorite-color"` is moved
+from being a nested key into a top level key.
+
+**Solution:** use the `move` transformation.
+
+`move` takes a source sequence of keys to a target value and a destination
+sequence of keys to denote where the value should be moved to. A "key sequence"
+is an array of keys to progressively "get" from the map or array, after which
+the value is taken.
+
+++++
+<details>
+  <summary><strong>Image</strong></summary>
+  <br/>
+++++
+image::parsing-value-types/img-1.png[]
+++++
+</details>
+++++
+
+==== Moving a value in an array
+
+`move` can lift values out of arrays by specifying its index as the "key"
+in the key sequence. In this example, we have an array of number of hits
+in a 6-inning baseball game. If we're interested in lifting the number of
+hits in the 3rd inning to a top level key, we can get a handle on it with
+`["hits", 2]`, where 2 is the zero-based index of the `"hits"` array.
+
+++++
+<details>
+  <summary><strong>Image</strong></summary>
+  <br/>
+++++
+image::parsing-value-types/img-2.png[]
+++++
+</details>
+++++
+
+==== Moving a submap to the top
+
+`move` can also lift a submap to the top level of a record using `[]` as the
+destination key sequence. Notable, this "splats" the submap to the parent map,
+remove the submap entirely. In this example, we move all the keys under
+`"person"` and make them top level keys in the record.
+
+++++
+<details>
+  <summary><strong>Image</strong></summary>
+  <br/>
+++++
+image::parsing-value-types/img-3.png[]
+++++
+</details>
+++++
+
+==== Nesting values further
+
+Instead of moving a value from a nested position in a map into a higher level,
+we can also push it further down. In this example, we take a generic top level
+key and put it in a more specific key structure.
+
+Keys in submaps will be automatically created. Array indexes are valid in the last
+position, so long as the target array exists. Arrays will *not* be automatically
+created.
+
+++++
+<details>
+  <summary><strong>Image</strong></summary>
+  <br/>
+++++
+image::parsing-value-types/img-4.png[]
+++++
+</details>
+++++
+

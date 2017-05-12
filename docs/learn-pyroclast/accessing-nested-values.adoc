@@ -1,0 +1,41 @@
+=== Accessing nested values
+
+**Problem:** you want to retrieve or set a value nested inside a record.
+
+**Example:** Suppose you have the following record:
+
+```json
+{
+  "team": [
+    {"user": "bob", "points": 51},
+    {"user": "malinda", "points": 98},
+    {"user": "ron", "points": 640}
+  ]
+}
+```
+
+Further, suppose you want to double the number of points for the first user in every team.
+This would involve using the `times` function, but we need a way to express
+that the target key is nested.
+
+**Solution:** use a key sequence.
+
+A key sequence is an array of keys to progressively "get"
+from the map or array, after which the value is taken. To get the first user's points
+in the team, the key path is `["team", 0, "points"]`. `"team"` is the key, which yields
+an array of users. `0` is the "key", in this case an index into the array, which yields
+another map - the user map. The final key is `"points"`, which accesses a non-collection
+value.
+
+Almost all functions in Pyroclast accept key sequences for the source and target keys, allowing
+you to move values up and down a records' hierarchy arbitrarily.
+
+++++
+<details>
+  <summary><strong>Image</strong></summary>
+  <br/>
+++++
+image::parsing-value-types/img-1.png[]
+++++
+</details>
+++++

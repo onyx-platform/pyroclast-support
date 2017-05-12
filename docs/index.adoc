@@ -1,0 +1,16 @@
+= Pyroclast
+:type: reference
+:toc: macro
+:toclevels: 2
+:toc: left
+:source-highlighter: coderay
+:sectanchors: true
+
+toc::[]
+
+include::overview/index.adoc[]
+include::concepts/index.adoc[]
+include::ingest/index.adoc[]
+include::architecture/index.adoc[]
+include::http-api/index.adoc[]
+include::learn-pyroclast/index.adoc[]

@@ -1,0 +1,37 @@
+=== Splitting a single record into many records
+
+**Problem:** your record has a piece of data that is representative of many records,
+and you want to split it apart.
+
+**Example:** Suppose you have the following record:
+
+```json
+{
+  "activity-batch": [
+    {"user": "stu", "action": "retweet"},
+    {"user": "lisa", "action": "favorite"},
+    {"user": "ron", "action": "tweet"}
+  ]
+}
+```
+
+This record contains a batch of information - three distinct actions for users.
+Pyroclast can process this record by itself, but you might want to split it apart
+into 3 independent records.
+
+**Solution:** use the `explode` transformation.
+
+`explode` is a function that takes an array value and extracts its subelements into
+their own records. In this example, `"activity-batch"` is transformed from a single
+array into output with *3* distinct records (denoted by the array around the output).
+Each of these records will now flow independently to the subsequent steps.
+
+++++
+<details>
+  <summary><strong>Image</strong></summary>
+  <br/>
+++++
+image::parsing-value-types/img-1.png[]
+++++
+</details>
+++++

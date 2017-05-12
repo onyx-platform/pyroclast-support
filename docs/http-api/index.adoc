@@ -1,0 +1,135 @@
+== Pyroclast API
+
+HTTP API for deployed Pyroclast services.
+
+**All API calls require basic authentication**
+
+    curl -u "[user id]:[api token]"
+
+All responses are formatted in **JSON**.
+
+=== GET /svc/:service-id
+
+Returns information about all materialized views for this service.
+
+==== example request
+
+    $ curl -u "[user id]:[api key]" "https://us-east-1.pyroclast.io/svc/kzPgyNWQYJRVdr"
+
+==== parameters
+
+include::params.adoc[]
+
+==== response
+
+    {
+        "trending-hashtags": {
+            "contents": {
+                "#yolo": [
+                    {
+                        "bounds": [
+                            1493856000000,
+                            1493942399999
+                        ],
+                        "value": 259
+                    }
+                ],
+                "#pyroclast": [
+                    {
+                        "bounds": [
+                            1493856000000,
+                            1493942399999
+                        ],
+                        "value": 121355146
+                    },
+                    {
+                        "bounds": [
+                            1493942400000,
+                            1494028799999
+                        ],
+                        "value": 110717456
+                    }
+                ]
+            },
+            "grouped?": true,
+            "id": "a21715fb-4662-4a41-9740-950d5c84b65b",
+            "type": "fixed"
+        }
+    }
+
+=== GET /svc/:service-id/:aggregate
+
+Gets a specific aggregate by name from this service.
+
+==== example request
+
+    $ curl -u "[user id]:[api key]" "https://us-east-1.pyroclast.io/svc/kzPgyNWQYJRVdr/trending-hashtags"
+
+==== parameters
+
+include::params.adoc[]
+
+==== response
+
+    {
+        "contents": {
+            "#yolo": [
+                {
+                    "bounds": [
+                        1493856000000,
+                        1493942399999
+                    ],
+                    "value": 259
+                }
+            ],
+            "#pyroclast": [
+                {
+                    "bounds": [
+                        1493856000000,
+                        1493942399999
+                    ],
+                    "value": 121355146
+                },
+                {
+                    "bounds": [
+                        1493942400000,
+                        1494028799999
+                    ],
+                    "value": 110717456
+                }
+            ]
+        },
+        "grouped?": true,
+        "id": "a21715fb-4662-4a41-9740-950d5c84b65b",
+        "type": "fixed"
+    }
+
+=== GET /svc/:aggregate/:group
+
+Gets a specific aggregate by name from this service.
+
+==== example request
+
+    $ curl -u "[user id]:[api key]" "https://us-east-1.pyroclast.io/svc/kzPgyNWQYJRVdr/trending-hashtags/yolo"
+
+==== parameters
+
+include::params.adoc[]
+
+==== response
+
+    {
+        "contents": [
+            {
+                "bounds": [
+                    1493856000000,
+                    1493942399999
+                ],
+                "value": 259
+            }
+        ],
+        "grouped?": true,
+        "id": "a21715fb-4662-4a41-9740-950d5c84b65b",
+        "type": "fixed"
+    }
+

@@ -1,0 +1,60 @@
+=== Services
+
+While topics store events that are sent to Pyroclast, services are processes that read from topics and change those events into something usable for the rest of your architecture. We use the term "service" in the same way that it is conventionally used to describe a generic web service - a process with a set of accessible endpoints that perform work on command.
+
+Continuing with the example, if you have a topic for user events, you might build a service that computes a rolling average of the number of times your users checked out their shopping cart each hour, or a service that does streaming-ETL work to modify the structure and contents of your events for further processing.
+
+==== Attach to topics for ingest
+
+Services "attach" to a particular topic to consume their records and perform some work on them. When a service is deployed, it will ingest all records currently in the topic, as well as any new records that arrive in real time. While a service reads the records from a topic, it doesn't remove or change them. Because of this property, multiple services can safely consume from the same topic, and will be guaranteed to see the same records without conflicting with one another.
+
+As records are consumed, the service immediately applies a set of changes and aggregations to them. These changes are defined by the configuration of the particular service.
+
+==== Backed by a stream processor
+
+Under the covers, each time a service is deployed, a stream processor is launched and paired with that service. Services can process extraordinarily large amounts of events at high speeds. A single web server wouldn't be capable of computing this quickly. In the background, completely away from the point of view of a user, the stream processor begins to consume from the topic, applying changes and storing state in a location that is accessible for the service. When an endpoint for that service is called, the service turns around and accesses the underlying state produced by the stream processor. In this way, Pyroclast is able to invisibly offer streaming as a service.
+
+==== Aggregations as queries
+
+When we say that the stream processor "stores state" for a service configuration, there are a few independent pieces of information that are durably stored. The main one from the users point of views are aggregation states.
+
+In a regular SQL database, events can be pushed to a table, and queries can be launched that take the data in the table and return an aggregation - a smaller value that summarizes all the records that match the query's criteria. The answer to the query is recomputed from scratch every time the query is issued, and the result is what we'll call the aggregation state.
+
+In Pyroclast, we do the exact inverse of the described operation. When data flows through your service, it is immediately factored into any aggregations that you've asked the service to perform. Using this approach, the aggregation *is* the query, and the answer to that query is incrementally updated every time a new piece of data arrives. This property yields constant time query access. That is, every time you issue a request to a service endpoint to access the value of an aggregation, you access the underlying aggregation state, which is updated in realtime. Thus, there is no more work to perform when you ask for the value of an aggregate - Pyroclast simply fetches the value and serves it up.
+
+This holds true no matter how much data you push into Pyroclast. Very large topics will return in the same amount of time as very small ones (adjusting for the amount of time it takes to transfer the result data set from Pyroclast to your system).
+
+==== Endpoints as query endpoints
+
+In the last section, we discussed how doing an analysis over event data could be done with a database, and what the drawbacks of what approach are. If we zoom in on how queries are issued under that model, (usually) SQL-esque queries are sent directly to a database server, which computes the results, and sends the answer back to your application. If the database server is down, your results are inaccessible.
+
+With Pyroclast, aggregation state is accessed through the HTTP endpoints of your deployed service. Using this technique, we're able to distance your application from the underlying storage that houses your aggregate state. Your application doesn't need drivers to talk to a specific database or storage engine - all it needs to speak is HTTP, meaning any programming language can work with Pyroclast instantly.
+
+Another important property is that the endpoints of each service deployment are *stable* - they don't change, even if you take the service offline, reboot it, tweak it, and bring it online. This property is critical for integrating Pyroclast into your architecture. Producers and consumers of Pyroclast data can be configured with the endpoints and API token associated with your service once, and until you need to rotate your API token for any reason, these endpoints will always be valid.
+
+==== Durable, replicated materialized views
+
+Another name for aggregation state is a *materialized view*. This term is more common in the database world, but is appropriate here because we durable maintain the answer to a query over time. In the previous sections, we discussed how the result of an aggregation, or query, is incrementally updated. The results to these queries are not only updated in real time - they are also durable stored on disk and replicated. In the event of an internal failure of stream processor that Pyroclast uses, your aggregation state is still accessible up to the point in time where it has last been computed. This applies even when you stop your service from running - the aggregation values are still accessible through the endpoints because they are replicated across data centers on disk.
+
+==== Fault tolerant processing
+
+We have covered how aggregation state is maintained and durably replicated on disk. In the realm of fault tolerance, there are other angles to consider - specifically what happens to your service if the background stream processor has a problem and fails.
+
+As the backing stream processor that pairs with your service consumes records from its input topic, it checkpoints its progress each time a record is fully processed. A record is fully processed if it successfully flows all the way through its sequence of tasks and terminates without unexpected problems. Pyroclast also durably stores and replicates its checkpoint data. If your service processes the first 200,000 records off its input topic, and your service and its stream processor are taken offline for some reason, the default action when the service relaunches it to *resume* from its last successful location in the topic. In this case, the stream processor would resume progress at the 200,001th record. **Pyroclast guaruntees that none of your data will be be dropped or skipped.**
+
+==== Scalable, high performance throughput
+
+The stream processor that pairs with each service is able to process incoming events at an extremely high volume - often on the order of hundreds of thousands of events per second for a service configured with 1x parallelism. By default, every service that you launch will have this grade of performance. If your service needs to be able to handle more data than that, it can be configured with more parallelism. A service configured with 5x parallelism will be able to handle 5x the throughput a service that isn't scaled, assuming its input stream is fully saturated.
+
+With the exception of some optimizations, most tasks within a service configuration will run on separate machines with dedicated threads. Messages are processed concurrently and in parallel across a distributed cluster of machines forming our stream processor fleet. Adding more parallelism to your service roughly corresponds to multiplying the number of threads and machines dedicated to performing work on your data.
+
+==== Low latency processing
+
+In addition to being very high throughput, Pyroclast offers exceptionally low latency. When a record enters a topic that a service is consuming, it's typically able to processor that message on the order of double digit milliseconds, assuming that the service is processing the most recent messages for the topic already. If the service in question is configured to resend each record to a new topic, it can typically do so subsecond, usually below 100 milliseconds. On the other hand, when a service reduces records into an aggregate, the aggregate's value will be updated to reflect the new information roughly ever 2 seconds. This amount of time reflects the checkpointing period that was discussed earlier in this section. This value can be configured to be as low as 50 milliseconds if your applications performance concerns are demanding enough to require this.
+  
+==== Replaying a topic's events from scatch
+  
+The first time that a service is launched, it will begin consuming messages from the beginning of the topic its receiving input from. If a service is taken offline and relaunched, you have the option of either *rebuilding* or *resuming*. Resuming a service is the case where aggregation data is left in tact, and the checkpoints used to designate what spot in the input topic the service was reading from are resumed.
+
+In contrast, sometimes you want *rebuild* the state in your service from scratch. Choosing this option causes your service to roll back and read from the beginning of your input topic once again, blowing away all previous state. This is highly useful if your service was configured incorrectly. Since topics are immutable, no information was lost. Your service can correct itself and begin serving up new aggregation values through its endpoints. Since the endpoints are stable, consumers of your service don't need to do anything to receive the new, correct aggregation results.
+

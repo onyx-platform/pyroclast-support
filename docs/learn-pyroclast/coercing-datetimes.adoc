@@ -1,0 +1,62 @@
+=== Coercing datetime values
+
+**Problem:** you have a datetime representation that is that needs to be formatted differently.
+
+**Example:** Suppose you have the following record:
+
+```json
+{
+  "event-time": "Thu May 11 2017 14:47:42"
+}
+```
+
+Suppose we want to turn this formatted timestamp into milliseconds since the Unix epoch.
+
+**Solution:** use the `parse-datetime` transformation.
+
+`parse-datetime` takes a target key with the formatted value, and a format string to try
+and parse the value with. The format specification follows the JodaTime project. When
+a value is successfully parsed, it is turned into milliseconds since the Unix epoch.
+
+++++
+<details>
+  <summary><strong>Image</strong></summary>
+  <br/>
+++++
+image::parsing-value-types/img-1.png[]
+++++
+</details>
+++++
+
+==== Parsing Exceptions
+
+When a datetime can't be parsed, an exception is thrown, and the record is not passed
+to subsequent tasks.
+
+++++
+<details>
+  <summary><strong>Image</strong></summary>
+  <br/>
+++++
+image::parsing-value-types/img-2.png[]
+++++
+</details>
+++++
+
+==== Unparsing Unix epoch values
+
+Sometimes you want to go in the other direction: turning a timestamp value that
+is in milliseconds since the Unix epoch to a formatted value. We use the
+`format-unix-ms-timestamp` function to handle this. `format-unix-ms-timestamp`
+takes a key which has an epoch value, and a format to transform the value into.
+
+++++
+<details>
+  <summary><strong>Image</strong></summary>
+  <br/>
+++++
+image::parsing-value-types/img-3.png[]
+++++
+</details>
+++++
+

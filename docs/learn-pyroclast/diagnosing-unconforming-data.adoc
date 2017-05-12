@@ -1,0 +1,66 @@
+=== Diangosing unconforming data
+
+**Problem:** you have records in your topic that may not all conform to the your expected
+schema, and you want to find them.
+
+**Example:** Suppose you have the following records:
+
+```json
+{
+  "user": "bob",
+  "age": 28
+}
+
+{
+  "user": "alice",
+  "age": "thirty-two"
+}
+```
+
+If your service expects all ages to be integers, an exception will be thrown at some
+point if you try to perform a numeric operation on the event for Alice, since age
+is a string with a number spelled out in English. We want to find all the events with
+a non-integer age.
+
+**Solution:** use a filter with the `integer?` and throw exceptions on unmatched events.
+
+Filters have a checkbox option to "Throw exception on unmatch?". When an event fails
+to meet the criteria for a predicate, it is normally silently discarded from flowing
+further down to subsequent tasks. In this case, we're interested in finding events that
+don't conform to our expectations that age is an integer, and we want to know which
+records these are so that we can perform further diagnosis about where they came from
+and why. If we check the box to throw on unmatch, records that don't meet the criteria
+throw an exception at runtime, and the record's value will be visible inside the Exception
+information box in a deployment.
+
+++++
+<details>
+  <summary><strong>Image</strong></summary>
+  <br/>
+++++
+image::parsing-value-types/img-1.png[height=60%; width=60%;]
+++++
+</details>
+++++
+
+==== Negated filters with unmatched exceptions
+
+In the above scenario, we selected the option to throw an exception when a record does
+not meet the criteria of the record - for example, `"age"` is an integer.
+
+We can do the inverse as well. By selecting the Negate? checkbox, Pyroclast will throw
+exceptions for all events that pass the specified predicate. For example, to throw
+exceptions on all values that have an empty string, we could use the `empty?` predicate,
+negated, and throw on unmatched. With this, the value `"visit-page"` will continue to flow
+downstream, but the empty string, `""`, will throw a runtime exception.
+
+++++
+<details>
+  <summary><strong>Image</strong></summary>
+  <br/>
+++++
+image::parsing-value-types/img-2.png[height=60%; width=60%;]
+++++
+</details>
+++++
+

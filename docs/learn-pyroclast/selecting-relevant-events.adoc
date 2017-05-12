@@ -1,0 +1,65 @@
+=== Selecting relevant events
+
+**Problem:** you have records in your topic with varying attributes, and you only
+want to process records that match particular criteria.
+
+**Example:** Suppose you have the following records:
+
+```json
+{
+  "user": "jim",
+  "action": "view-page",
+  "page": "/timeline"
+}
+
+{
+  "user": "sue",
+  "action": "favorite-item",
+  "item-id": 329572385
+}
+
+{
+  "user": "cindy",
+  "action": "update-status",
+  "status": "Going home now."
+}
+```
+
+You're making a service that's only interested in status update events. Your topic has
+events of all types from different users, but you only need to look at events whose
+`"action"` key maps to the `"update-status"` value, effectively removing all other
+event types from the stream.
+
+**Solution:** use a filter with the `=` predicate.
+
+A filter only allows events to pass through that match the criteria of a particular
+predicate. If our criteria is to only allow through event actions matching `"update-status"`,
+we can use the `=` predicate to check equality.
+
+++++
+<details>
+  <summary><strong>Image</strong></summary>
+  <br/>
+++++
+image::parsing-value-types/img-1.png[height=60%; width=60%;]
+++++
+</details>
+++++
+
+==== Removing matching events
+
+Sometimes you'd prefer to do perform the inverse action to filtering - removing events
+that match your criteria. Let's suppose instead that you want to process all events
+that *are not* a status update. You can either use the `not=` predicate, or continue
+to use the `=` predicate and tick the Negate? checkbox.
+
+++++
+<details>
+  <summary><strong>Image</strong></summary>
+  <br/>
+++++
+image::parsing-value-types/img-2.png[height=60%; width=60%;]
+++++
+</details>
+++++
+

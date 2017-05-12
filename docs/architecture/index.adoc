@@ -1,0 +1,6 @@
+== How Pyroclast Works
+:imagesdir: architecture/img
+
+include::high-level.adoc[]
+include::topics.adoc[]
+include::services.adoc[]
