@@ -1,4 +1,4 @@
-== Overview
+== Product Overview
 
 Pyroclast is a cloud-hosted platform for building realtime data applications. We make Streaming as a Service easy:
 
