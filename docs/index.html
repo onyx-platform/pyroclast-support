@@ -2306,7 +2306,7 @@ a value is successfully parsed, it is turned into milliseconds since the Unix ep
 </div>
 </details>
 <div class="sect3">
-<h4 id="_parsing_exceptions"><a class="anchor" href="#_parsing_exceptions"></a>Parsing Exceptions</h4>
+<h4 id="_parsing_exceptions"><a class="anchor" href="#_parsing_exceptions"></a>Parsing exceptions</h4>
 <div class="paragraph">
 <p>When a datetime can&#8217;t be parsed, an exception is thrown, and the record is not passed
 to subsequent tasks.</p>
@@ -2338,6 +2338,202 @@ takes a key which has an epoch value, and a format to transform the value into.<
 </div>
 </div>
 </details>
+</div>
+<div class="sect3">
+<h4 id="_datetime_formats"><a class="anchor" href="#_datetime_formats"></a>DateTime formats</h4>
+<div class="paragraph">
+<p>The following is a list of example datetime format strings that Pyroclast can parse:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">type</th>
+<th class="tableblock halign-left valign-top">format string</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">basic date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyyMMdd</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">basic date time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyyMMdd'T'HHmmss.SSSZ</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">basic date time no ms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyyMMdd'T'HHmmssZ</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">basic ordinal date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyyDDD</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">basic ordinal date time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyyDDD'T'HHmmss.SSSZ</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">basic ordinal date time no ms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyyDDD'T'HHmmssZ</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">basic time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HHmmss.SSSZ</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">basic time no ms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HHmmssZ</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">basic t time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>'T'HHmmss.SSSZ</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">basic t time no ms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>'T'HHmmssZ</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">basic week date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xxxx'W'wwe</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">basic week date time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xxxx'W'wwe'T'HHmmss.SSSZ</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">basic week date time no ms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xxxx'W'wwe'T'HHmmssZ</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyy-MM-dd</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">date hour</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyy-MM-dd'T'HH</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">date hour minute</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyy-MM-dd'T'HH:mm</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">date hour minute second</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyy-MM-dd'T'HH:mm:ss</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">date hour minute second fraction</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">date hour minute second ms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">date time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyy-MM-dd'T'HH:mm:ss.SSSZZ</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">date time no ms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyy-MM-dd'T'HH:mm:ssZZ</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hour</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HH</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hour minute</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HH:mm</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hour minute second</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HH:mm:ss</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hour minute second fraction</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HH:mm:ss.SSS</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hour minute second ms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HH:mm:ss.SSS</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ordinal date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyy-DDD</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ordinal date time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyy-DDD'T'HH:mm:ss.SSSZZ</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ordinal date time no ms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyy-DDD'T'HH:mm:ssZZ</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HH:mm:ss.SSSZZ</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">time no ms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HH:mm:ssZZ</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">t time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>'T'HH:mm:ss.SSSZZ</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">t time no ms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>'T'HH:mm:ssZZ</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">week date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xxxx-'W'ww-e</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">week date time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xxxx-'W'ww-e'T'HH:mm:ss.SSSZZ</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">week date time no ms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xxxx-'W'ww-e'T'HH:mm:ssZZ</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">weekyear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xxxx</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">weekyear week</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xxxx-'W'ww</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">weekyear week day</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xxxx-'W'ww-e</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">year</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyy</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">year month</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyy-MM</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">year month day</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyy-MM-dd</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rfc822</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>EEE, dd MMM yyyy HH:mm:ss Z</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mysql</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yyyy-MM-dd HH:mm:ss</code></p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect2">
