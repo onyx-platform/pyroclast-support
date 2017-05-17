@@ -28,7 +28,7 @@ image::parsing-value-types/img-1.png[]
 </details>
 ++++
 
-==== Parsing Exceptions
+==== Parsing exceptions
 
 When a datetime can't be parsed, an exception is thrown, and the record is not passed
 to subsequent tasks.
@@ -60,3 +60,56 @@ image::parsing-value-types/img-3.png[]
 </details>
 ++++
 
+
+==== DateTime formats
+
+The following is a list of example datetime format strings that Pyroclast can parse:
+
+[options="header"]
+|======================
+| type | format string
+| basic date                       | `yyyyMMdd`
+| basic date time                  | `yyyyMMdd\'T\'HHmmss.SSSZ`
+| basic date time no ms            | `yyyyMMdd\'T\'HHmmssZ`
+| basic ordinal date               | `yyyyDDD`
+| basic ordinal date time          | `yyyyDDD\'T\'HHmmss.SSSZ`
+| basic ordinal date time no ms    | `yyyyDDD\'T\'HHmmssZ`
+| basic time                       | `HHmmss.SSSZ`
+| basic time no ms                 | `HHmmssZ`
+| basic t time                     | `'T\'HHmmss.SSSZ`
+| basic t time no ms               | `'T\'HHmmssZ`
+| basic week date                  | `xxxx\'W\'wwe`
+| basic week date time             | `xxxx\'W\'wwe\'T\'HHmmss.SSSZ`
+| basic week date time no ms       | `xxxx\'W\'wwe\'T\'HHmmssZ`
+| date                             | `yyyy-MM-dd`
+| date hour                        | `yyyy-MM-dd\'T\'HH`
+| date hour minute                 | `yyyy-MM-dd\'T\'HH:mm`
+| date hour minute second          | `yyyy-MM-dd\'T\'HH:mm:ss`
+| date hour minute second fraction | `yyyy-MM-dd\'T\'HH:mm:ss.SSS`
+| date hour minute second ms       | `yyyy-MM-dd\'T\'HH:mm:ss.SSS`
+| date time                        | `yyyy-MM-dd\'T\'HH:mm:ss.SSSZZ`
+| date time no ms                  | `yyyy-MM-dd\'T\'HH:mm:ssZZ`
+| hour                             | `HH`
+| hour minute                      | `HH:mm`
+| hour minute second               | `HH:mm:ss`
+| hour minute second fraction      | `HH:mm:ss.SSS`
+| hour minute second ms            | `HH:mm:ss.SSS`
+| ordinal date                     | `yyyy-DDD`
+| ordinal date time                | `yyyy-DDD\'T\'HH:mm:ss.SSSZZ`
+| ordinal date time no ms          | `yyyy-DDD\'T\'HH:mm:ssZZ`
+| time                             | `HH:mm:ss.SSSZZ`
+| time no ms                       | `HH:mm:ssZZ`
+| t time                           | `'T\'HH:mm:ss.SSSZZ`
+| t time no ms                     | `'T\'HH:mm:ssZZ`
+| week date                        | `xxxx-'W\'ww-e`
+| week date time                   | `xxxx-'W\'ww-e\'T\'HH:mm:ss.SSSZZ`
+| week date time no ms             | `xxxx-'W\'ww-e\'T\'HH:mm:ssZZ`
+| weekyear                         | `xxxx`
+| weekyear week                    | `xxxx-'W\'ww`
+| weekyear week day                | `xxxx-'W\'ww-e`
+| year                             | `yyyy`
+| year month                       | `yyyy-MM`
+| year month day                   | `yyyy-MM-dd`
+| rfc822                           | `EEE, dd MMM yyyy HH:mm:ss Z`
+| mysql                            | `yyyy-MM-dd HH:mm:ss`
+|======================
